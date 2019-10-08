@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  setup-environment:
     docker:
       - image: circleci/node:10.16.3
 
@@ -11,12 +11,30 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
-
-      - run: npm install
-
+      - run: 
+          name: Install dependencies
+          command: npm install
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      
-      - run: npm run build
+      - persist_to_workspace:
+          root: ~/
+
+  build:
+    working_directory: ~/front-end
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - run:
+          name: Build front-end
+          command: ng build
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - setup-environment:
+      - build:
+        requires:
+          - setup-environment 
