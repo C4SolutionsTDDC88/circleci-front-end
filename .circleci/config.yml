@@ -29,6 +29,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run:
           name: Build front-end
           command: ng build
