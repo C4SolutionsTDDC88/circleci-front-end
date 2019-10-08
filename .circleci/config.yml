@@ -36,5 +36,5 @@ workflows:
     jobs:
       - setup-environment:
       - build:
-        requires:
-          - setup-environment 
+          requires:
+            - setup-environment 
