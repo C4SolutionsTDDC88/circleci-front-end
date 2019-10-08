@@ -22,9 +22,9 @@ jobs:
           root: ~/
 
   build:
-    working_directory: ~/front-end
     docker:
       - image: circleci/node:10.16.3
+    working_directory: ~/front-end
     steps:
       - run:
           name: Build front-end
